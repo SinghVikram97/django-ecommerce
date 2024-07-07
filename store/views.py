@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Product
+from .models import Product, Category
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -20,6 +20,16 @@ def about(request):
 def product(request, pk):
     product = Product.objects.get(pk=pk)
     return render(request, 'product.html', {'product': product})
+
+
+def category(request, categoryselected):
+    try:
+        category = Category.objects.get(name=categoryselected)
+        products = Product.objects.filter(category=category)
+        return render(request, 'category.html', {"products": products, "category": category})
+    except:
+        messages.success(request, "Category does not exist")
+        return redirect('home')
 
 
 def login_user(request):
