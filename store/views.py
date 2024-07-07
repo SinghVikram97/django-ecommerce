@@ -17,6 +17,11 @@ def about(request):
     return render(request, 'about.html', {})
 
 
+def product(request, pk):
+    product = Product.objects.get(pk=pk)
+    return render(request, 'product.html', {'product': product})
+
+
 def login_user(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -55,4 +60,4 @@ def register_user(request):
             messages.error(request, 'Invalid username or password')
             return redirect('register')
     else:
-        return render(request, 'register.html', {'form':form})
+        return render(request, 'register.html', {'form': form})
