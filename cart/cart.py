@@ -15,3 +15,7 @@ class Cart():
         else:
             self.cart[product_id] = {'price': str(product.price)}
         self.session.modified = True
+
+    def __len__(self):
+        # it should also be on all pages and done by context_processors.py
+        return len(self.cart)
