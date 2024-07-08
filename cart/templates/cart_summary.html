@@ -62,6 +62,8 @@
                         <br/><br/>
                   <button type="button" data-index="{{ product.id }}"
                           class="btn btn-secondary update-cart">Update</button>
+                  <button type="button" data-index="{{ product.id }}"
+                          class="btn btn-danger delete-product">Remove</button>
 
 
                   </center>
@@ -100,6 +102,27 @@
 
         });
     })
+// Delete item from cart
+    $(document).on('click', '.delete-product', function(e) {
+        e.preventDefault();
+        //var productid= $(this).data('index');
+        $.ajax({
+           type: 'POST',
+           url: '{% url 'cart_delete' %}',
+           data: {
+               product_id:  $(this).data('index'),
+               //product_qty: $('#select' + productid + ' option:selected').text(),
+               csrfmiddlewaretoken: '{{ csrf_token }}',
+               action:'post'
+           },
+            success: function(json){
+               //console.log(json)
+                // document.getElementById("cart_quantity").textContent = json.qty
+                location.reload();
+            },
+            error: function(xhr,errmsg,err){}
 
+        });
+    })
     </script>
 {% endblock %}
