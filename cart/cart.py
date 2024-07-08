@@ -1,3 +1,5 @@
+from itertools import product
+
 from store.models import Product
 
 
@@ -53,4 +55,24 @@ class Cart():
         if product_id in self.cart:
             del self.cart[product_id]
         self.session.modified = True
+    def total(self):
+        # Get Product Ids
+        product_ids = self.cart.keys()
+        # lookup those keys in product db model
+        products = Product.objects.filter(id__in=product_ids)
+        # Get quantities
+        quantities = self.cart
+
+        total = 0
+        for key, value in quantities.items():
+            # convert key string into int to do the calculation
+            key = int(key)
+            for product in products:
+                if product.id == key:
+                        total = total + (product.price * value)
+        return total
+
+
+
+
 
