@@ -17,6 +17,29 @@ class Cart():
         # To make shopping cart work on all pages of website
         self.cart = cart
 
+    def db_add(self, product, quantity):
+        product_id = str(product)
+        product_qty = str(quantity)
+        if product_id in self.cart:
+            pass
+        else:
+            #self.cart[product_id] = {'price': str(product.price)}
+            self.cart[product_id] = int(product_qty)
+        self.session.modified = True
+
+        # Deal with logged in user
+        if self.request.user.is_authenticated:
+            # Get the current user profile
+            current_user = Profile.objects.filter(user__id=self.request.user.id)
+            
+            # Convert python dictionary to json string
+            carty = str(self.cart)
+            carty = carty.replace("\'", '\"')
+
+            # Save carty to profile model
+            current_user.update(old_cart=str(carty))
+
+    
     def add(self, product, quantity):
         product_id = str(product.id)
         product_qty = str(quantity)
@@ -63,6 +86,18 @@ class Cart():
 
         self.session.modified = True
 
+        
+        # Deal with logged in user
+        if self.request.user.is_authenticated:
+            # Get the current user profile
+            current_user = Profile.objects.filter(user__id=self.request.user.id)
+            
+            # Convert python dictionary to json string
+            carty = str(self.cart)
+            carty = carty.replace("\'", '\"')
+
+            # Save carty to profile model
+            current_user.update(old_cart=str(carty))
         thing = self.cart
         return thing
     def delete(self, product):
@@ -71,6 +106,18 @@ class Cart():
         if product_id in self.cart:
             del self.cart[product_id]
         self.session.modified = True
+
+        # Deal with logged in user
+        if self.request.user.is_authenticated:
+            # Get the current user profile
+            current_user = Profile.objects.filter(user__id=self.request.user.id)
+            
+            # Convert python dictionary to json string
+            carty = str(self.cart)
+            carty = carty.replace("\'", '\"')
+
+            # Save carty to profile model
+            current_user.update(old_cart=str(carty))
     def total(self):
         # Get Product Ids
         product_ids = self.cart.keys()
