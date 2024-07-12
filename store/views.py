@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .forms import SignUpForm, UpdateUserForm, ChangePasswordForm, UserInfoForm
 from django import forms
-
+from django.db.models import Q
 
 def home(request):
     products = Product.objects.all()
@@ -31,7 +31,22 @@ def category(request, categoryselected):
         messages.success(request, "Category does not exist")
         return redirect('home')
 
+def search(request):
+    # Determine if the search form has been submitted
+    if request.method == 'POST':
+        searched = request.POST['searched']
+        
+        # Query The products DB model
+        search_results = Product.objects.filter(Q(name__icontains=searched) | Q(description__icontains=searched))
 
+        # Test for Null
+        if not search_results:
+            messages.success(request, "No search results found")
+            return render(request, 'search.html', {})
+        else:
+            return render(request, 'search.html', {'searched': search_results})
+    else:
+        return render(request, 'search.html', {})
 def update_info(request):
     if request.user.is_authenticated:
         current_user = Profile.objects.get(user__id=request.user.id)
