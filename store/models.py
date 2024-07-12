@@ -14,6 +14,7 @@ class Profile(models.Model):
     state = models.CharField(max_length=200, blank=True)
     zipcode = models.CharField(max_length=200, blank=True)
     country = models.CharField(max_length=200, blank=True)
+    old_cart = models.CharField(max_length=1000, blank=True, null=True)
     last_login = models.DateTimeField(User, auto_now=True) # Important to add this field if we are using inbuilt login method else will give error
 
     def __str__(self):
