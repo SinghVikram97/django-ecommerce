@@ -99,7 +99,7 @@
         e.preventDefault();
         $.ajax({
            type: 'POST',
-           url: '{% url 'cart_add' %}',
+        url: "{% url 'cart_add' %}",
            data: {
                product_id: $('#add-cart').val(),
                product_qty: $('#qty-cart option:selected').text(),
@@ -108,7 +108,8 @@
            },
             success: function(json){
                //console.log(json)
-                document.getElementById("cart_quantity").textContent = json.qty
+                document.getElementById("cart_quantity").textContent = json.qty;
+                location.reload();
             },
             error: function(xhr,errmsg,err){}
 
