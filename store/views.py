@@ -5,6 +5,8 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .forms import SignUpForm, UpdateUserForm, ChangePasswordForm, UserInfoForm
+from payment.forms import ShippingForm
+from payment.models import ShippingAddress
 from django import forms
 from django.db.models import Q
 import json
@@ -51,14 +53,27 @@ def search(request):
         return render(request, 'search.html', {})
 def update_info(request):
     if request.user.is_authenticated:
+        # Get the current user
         current_user = Profile.objects.get(user__id=request.user.id)
+        
+        # Get the current user shipping info
+        try:
+            shipping_user = ShippingAddress.objects.get(user__id=request.user.id)
+        except ShippingAddress.DoesNotExist:
+            shipping_user = None
+
+        # Get original user form
         form = UserInfoForm(request.POST or None, instance=current_user)
-        if form.is_valid():
+        
+        # Get user's Shipping form
+        shipping_form = ShippingForm(request.POST or None, instance=shipping_user)
+        if form.is_valid() or shipping_form.is_valid():
             form.save()
+            shipping_form.save()
             login(request, current_user)
             messages.success(request, 'User Info Has Been Updated!!')
             return redirect('home')
-        return render(request, 'update_info.html', {'form': form})
+        return render(request, 'update_info.html', {'form': form, 'shipping_form': shipping_form})
     else:
         messages.success(request, 'Please login to update your profile')
         return redirect('home')
@@ -122,9 +137,6 @@ def login_user(request):
                 # Loop through the cart and add each item to the session
                 for key, value in converted_cart.items():
                     cart.db_add(product=key, quantity=value)
-
-
-
 
             messages.success(request, 'You are now logged in')
             return redirect('home')
