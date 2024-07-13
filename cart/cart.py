@@ -72,9 +72,11 @@ class Cart():
         products = Product.objects.filter(id__in=product_ids)
         # Return those looked up products
         return products
+
     def get_quants(self):
         quantities = self.cart
         return quantities
+
     def update(self, product, quantity):
         product_id = str(product)
         product_qty = int(quantity)
@@ -86,7 +88,6 @@ class Cart():
 
         self.session.modified = True
 
-        
         # Deal with logged in user
         if self.request.user.is_authenticated:
             # Get the current user profile
@@ -100,6 +101,7 @@ class Cart():
             current_user.update(old_cart=str(carty))
         thing = self.cart
         return thing
+
     def delete(self, product):
         product_id = str(product)
         # Delete from dictionary
@@ -118,7 +120,8 @@ class Cart():
 
             # Save carty to profile model
             current_user.update(old_cart=str(carty))
-    def total(self):
+
+    def cart_total(self):
         # Get Product Ids
         product_ids = self.cart.keys()
         # lookup those keys in product db model
