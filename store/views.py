@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Product, Category, Profile
+from .models import Product, Category, Profile, UserProfile
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -14,7 +14,13 @@ from cart.cart import Cart
 
 def home(request):
     products = Product.objects.all()
-    return render(request, 'home.html', {'products': products})
+    user_profile = None
+    if request.user.is_authenticated:
+        try:
+            user_profile = UserProfile.objects.get(user=request.user)
+        except UserProfile.DoesNotExist:
+            user_profile = UserProfile.objects.create(user=request.user)
+    return render(request, 'home.html', {'products': products, 'user_profile': user_profile})
 
 
 def about(request):
@@ -156,9 +162,12 @@ def logout_user(request):
 def register_user(request):
     form = SignUpForm()
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            user_profile = UserProfile.objects.get(user=user)
+            user_profile.profile_picture = form.cleaned_data.get('profile_picture')
+            user_profile.save()
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
@@ -170,3 +179,12 @@ def register_user(request):
             return redirect('register')
     else:
         return render(request, 'register.html', {'form': form})
+def edit_profile_picture(request):
+    if request.method == 'POST':
+        user_profile = UserProfile.objects.get(user=request.user)
+        user_profile.profile_picture = request.FILES['profile_picture']
+        user_profile.save()
+        messages.success(request, 'Your profile picture has been updated.')
+        return redirect('home')
+    else:
+        return render(request, 'edit_profile_picture.html', {})
