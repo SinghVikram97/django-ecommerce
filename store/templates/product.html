@@ -10,7 +10,6 @@
             </div>
             <div class="col-md-8">
               <div class="card-body">
-                  <center>
                       <h5 class="card-title">{{ product.name }}</h5>
                       <p class="card-text">{{ product.description }}</p>
                       {% if product.is_sale %}
@@ -27,7 +26,7 @@
                          <!-- <Br/>ID: {{ product.id }} -->
                       {% endif %}
                         <br/><br/>
-                        <div class="row justify-content-center">
+                        <div class="row justify-content">
                             <div class="col-md-2">Quantity:</div>
                             <div class="col-md-2">
                             <select class ="form-select form-select-sm" id="qty-cart">
@@ -42,8 +41,53 @@
                       <br/><br/>
                       <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
                   <button type="button" value="{{ product.id }}" class="btn btn-secondary" id="add-cart">Add To Cart</button>
-                  </center>
               </div>
+
+                <div class="mt-4">
+                    <h5><i class="fas fa-credit-card"></i> Bank Discounts</h5>
+                    <p>Get additional discounts on select bank cards <a href="#">Learn more.</a></p>
+                </div>
+
+                <div class="mt-4">
+                    <h5><i class="fas fa-undo"></i> Easy Returns</h5>
+                    <p>Return within 45 days of purchase. Duties & taxes are non-refundable. <a href="#">Returns Details.</a></p>
+                </div>
+
+                <div class="mt-4">
+                    <h5>Sustainability</h5>
+                    <ul>
+                        <li style="list-style-type: None; margin-left: -30px"><i class="fas fa-recycle"></i> Renewed Materials </li>
+                        <li style="list-style-type: None; margin-left: -30px"><i class="fas fa-seedling"></i> Cleaner Cotton</li>
+                        <li style="list-style-type: None; margin-left: -30px"><i class="fas fa-suitcase"></i> Recycled Packaging</li>
+                        <li style="list-style-type: None; margin-left: -30px"><i class="fas fa-tint"></i> Eco-friendly Dyes</li>
+                    </ul>
+                </div>
+
+                <div class="mt-4">
+                    <h3>Transparent Pricing</h3>
+                    <p>We publish what it costs us to make every one of our products. There are a lot of costs we can not neatly account for - like design, fittings, wear testing, rent on office and retail space - but we believe you deserve to know what goes into making the products you love.</p>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <p><i class="fas fa-cube"></i> <strong>Materials*</strong> <br/>3%</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p><i class="fas fa-cogs"></i> <strong>Hardware*</strong> <br/>3%</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p><i class="fas fa-user"></i> <strong>Labor*</strong> <br/>2%</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p><i class="fas fa-money-bill"></i> <strong>Duties*</strong> <br/>1%</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p><i class="fas fa-truck"></i> <strong>Transport*</strong> <br/>1%</p>
+                        </div>
+                    </div>
+
+                    <p style="font-size: 0.875em; font-weight: bold; font-style: italic;">*Prices shown as percentage of sale price</p>
+
+                </div>
+
             </div>
           </div>
         </div>
@@ -55,7 +99,7 @@
         e.preventDefault();
         $.ajax({
            type: 'POST',
-           url: '{% url 'cart_add' %}',
+        url: "{% url 'cart_add' %}",
            data: {
                product_id: $('#add-cart').val(),
                product_qty: $('#qty-cart option:selected').text(),
@@ -64,7 +108,8 @@
            },
             success: function(json){
                //console.log(json)
-                document.getElementById("cart_quantity").textContent = json.qty
+                document.getElementById("cart_quantity").textContent = json.qty;
+                location.reload();
             },
             error: function(xhr,errmsg,err){}
 
