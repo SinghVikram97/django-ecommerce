@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'store',
     'cart',
     'payment',
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -121,3 +122,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Add paypal settings
+# Set sandbox to true
+PAYPAL_TEST = True
+
+PAYPAL_RECEIVER_EMAIL = 'elonmusk2024@gmail.com' # Business Sandbox account
