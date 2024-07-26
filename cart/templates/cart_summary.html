@@ -79,7 +79,16 @@
             </div>
             <br/><br/><br/>
         	{% else %}
-        	There's Nothing In Your Cart...
+        	<div style="display: flex; justify-content: center; align-items: center; height: 50vh;">
+                <div style="text-align: center; padding: 20px; border: 2px solid #ccc; border-radius: 10px; background-color: #f9f9f9; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); max-width: 400px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="fill: #999; width: 60px; height: 60px; margin-bottom: 20px;" viewBox="0 0 24 24">
+                        <path d="M16 6V4a4 4 0 1 0-8 0v2H5v2h14V6h-3zM8 6V4a2 2 0 0 1 4 0v2H8zm-5 8h14v-2H3v2zm0 4h14v-2H3v2zm0-8h14v-2H3v2z"/>
+                    </svg>
+                    <h1 style="color: #333; font-size: 1.5em; margin-bottom: 10px;">Your Cart is Empty</h1>
+                    <p style="color: #555; font-size: 1.2em;">There's nothing in your cart. Explore our products and add your favorites to the cart.</p>
+                    <a href="{% url 'home' %}" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px;">Shop Now</a>
+                </div>
+            </div>
         <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
     {% endif %}
     </div>
