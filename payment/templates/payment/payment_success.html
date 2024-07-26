@@ -1,1 +1,13 @@
-<h1>Payment Success</h1>
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container" style="display: flex; justify-content: center; align-items: center; height: 80vh;">
+        <div style="text-align: center; border: 2px solid #28a745; border-radius: 10px; padding: 20px; background-color: #e8f5e9; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); max-width: 400px;">
+            <svg xmlns="http://www.w3.org/2000/svg" style="fill: #28a745; width: 60px; height: 60px; margin-bottom: 20px;" viewBox="0 0 24 24">
+                <path d="M10 15.172l8.485-8.485 1.414 1.414-9.9 9.9L4.1 12.586l1.415-1.414L10 15.172z"/>
+            </svg>
+            <h1 style="color: #28a745; font-size: 2em; margin-bottom: 10px;">Payment Success</h1>
+            <p style="color: #555; font-size: 1.2em;">Thank you for your purchase! Your payment has been processed successfully.</p>
+        </div>
+    </div>
+{% endblock %}
