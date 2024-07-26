@@ -234,27 +234,29 @@ def billing_info(request):
         # Check to see if user is logged in
         if request.user.is_authenticated:
             # Get The Billing Form
-            billing_form = PaymentForm()
+            # billing_form = PaymentForm()
             return render(request, "payment/billing_info.html", {"paypal_form": paypal_form,
                                                                  "cart_products": cart_products,
                                                                  "quantities": quantities,
-                                                                 "totals": totals, "shipping_info": request.POST,
-                                                                 "billing_form": billing_form})
+                                                                 "totals": totals, "shipping_info": request.POST
+                                                                 # "billing_form": billing_form
+                                                                 })
 
         else:
             # Not logged in
             # Get The Billing Form
-            billing_form = PaymentForm()
+            # billing_form = PaymentForm()
             return render(request, "payment/billing_info.html", {"paypal_form": paypal_form,
                                                                  "cart_products": cart_products,
                                                                  "quantities": quantities, "totals": totals,
-                                                                 "shipping_info": request.POST,
-                                                                 "billing_form": billing_form})
+                                                                 "shipping_info": request.POST
+                                                                 # "billing_form": billing_form
+                                                                 })
 
-        shipping_form = request.POST
-        return render(request, "payment/billing_info.html",
-                      {"cart_products": cart_products, "quantities": quantities, "totals": totals,
-                       "shipping_form": shipping_form})
+        # shipping_form = request.POST
+        # return render(request, "payment/billing_info.html",
+        #               {"cart_products": cart_products, "quantities": quantities, "totals": totals,
+        #                "shipping_form": shipping_form})
     else:
         messages.success(request, "Access Denied")
         return redirect('home')

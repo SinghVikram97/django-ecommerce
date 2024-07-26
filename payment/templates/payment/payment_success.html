@@ -8,6 +8,12 @@
             </svg>
             <h1 style="color: #28a745; font-size: 2em; margin-bottom: 10px;">Payment Success</h1>
             <p style="color: #555; font-size: 1.2em;">Thank you for your purchase! Your payment has been processed successfully.</p>
+            <form action="{% url 'process_order' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" style="background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-top: 20px;">
+                    Return to Home Page
+                </button>
+            </form>
         </div>
     </div>
 {% endblock %}
